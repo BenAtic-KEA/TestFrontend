@@ -1,6 +1,6 @@
 import { SERVER_URL } from "../settings.js"
 import { makeOptions } from "../fetchUtils.js"
-import { encode } from "../utils.js"
+import { encode, showPage } from "../utils.js"
 
 const URL = SERVER_URL + "candidates"
 let currentCandidate = {}
@@ -16,6 +16,7 @@ export function candidates(){
     fetch(URL)
     .then(res => res.json())
     .then(data => {
+        currentCandidate.id = data[0].id
         const row = data.map(candidate => `
         <option value="${encode(candidate.id)}">${encode(candidate.name)} - ${encode(candidate.partyResponse.name)} - ${encode(candidate.partyResponse.letter)}
         `).join("")
@@ -56,11 +57,13 @@ function editCandidate(){
     console.log(currentCandidate)
     fetch(URL + "/" + currentCandidate.id,options)
     .then(res => res.json())
+    location.reload()
 
 }
 
 function deleteCandidate(){
     const options = makeOptions("DELETE")
-    fetch(URL + "/" + currentCandidate.id)
+    fetch(URL + "/" + currentCandidate.id,options)
     .then(res => res.json())
+location.reload()
 }
