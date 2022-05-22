@@ -3,9 +3,12 @@ import { makeOptions } from "../fetchUtils.js"
 import { encode } from "../utils.js"
 
 const URL = SERVER_URL + "candidates"
-let candidate = {}
+let currentCandidate = {}
+
 export function editCandidateHandler(){
     document.getElementById("candidate-selector").onchange = candidateInfo
+    document.getElementById("edit-candidate-btn").onclick = editCandidate
+    document.getElementById("delete-candidate-btn").onclick = deleteCandidate
 }
 
 export function candidates(){
@@ -27,6 +30,10 @@ function candidateInfo(evt){
     fetch(URL + "/" + value)
     .then(res => res.json())
     .then(candidate => {
+        currentCandidate.id = candidate.id
+        currentCandidate.name = candidate.name
+        currentCandidate.partyid = candidate.partyResponse.id
+        console.log(currentCandidate)
         editCandidateForm(candidate)
     })
 
@@ -34,11 +41,26 @@ function candidateInfo(evt){
 
 function editCandidateForm(candidate){
     const idRow = `
-        <input class="form-control" value="${encode(candidate.id)} "readonly>`
+        <input id="input-id" class="form-control" value="${encode(candidate.id)} "readonly>`
         
         const nameRow = `
-        <input class="form-control" placeholder="${encode(candidate.name)}" >`
+        <input id="input-name" class="form-control" placeholder="${encode(candidate.name)}" >`
         
         document.getElementById("candidate-id").innerHTML = idRow
         document.getElementById("candidate-name").innerHTML = nameRow
+}
+
+function editCandidate(){
+    currentCandidate.name = document.getElementById("input-name").value
+    const options = makeOptions("PUT",currentCandidate)
+    console.log(currentCandidate)
+    fetch(URL + "/" + currentCandidate.id,options)
+    .then(res => res.json())
+
+}
+
+function deleteCandidate(){
+    const options = makeOptions("DELETE")
+    fetch(URL + "/" + currentCandidate.id)
+    .then(res => res.json())
 }
