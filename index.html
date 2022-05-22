@@ -30,8 +30,8 @@
     <div style="margin-left: 50px; margin-right: auto; width: 80%" class="vertical-menu">
       <div>
         <ul id="menu" class="menu">
-          <li><a id="page-about" href="#">About</a></li>
-          <li><a id="page-all-candidates" href="#">All candidates</a></li>
+          <li><a id="page-all-candidates" href="#">All Candidates</a></li>
+          <li><a id="page-edit-candidate" href="#">Edit Candidate</a></li>
         </ul>
       </div>
       <div id="content" style="margin-left: 15px; padding-top: 1em"></div>
@@ -43,13 +43,27 @@
   All you templates should be added below
 -->
 
-<template data-id="page-about">
-  <h2>Simple Demo Project to demonstrate JWT-security</h2>
-</template>
-
-<template data-id="page-secret">
-  <div id="msg-from-server"></div>
-  <div id="error" style="color: red"></div>
+<template data-id="page-edit-candidate">
+  <form>
+    <div>
+      <select id="candidate-selector">
+      </select>
+      <button id="select-candidate-btn" class="btn btn-primary">candidate to edit</button>
+    </div>
+    <div class="form-group">
+      <label>ID</label>
+      <div id="candidate-id">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Name</label>
+      <div id="candidate-name">
+      </div>
+    </div>  
+  </form>
+  <br>
+  <button id="edit-candidate-button" class="btn btn-primary">Edit candidate</button>
+  <button id="delete-candidate" class="btn btn-danger">Delete candidate</button>
 </template>
 
 <template data-id="page-all-candidates">
